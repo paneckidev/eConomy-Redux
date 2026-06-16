@@ -1,6 +1,6 @@
 {
-    "name": "firehead996/economy_redux",
-    "version": "1.0.0",
+    "name": "paneckidev/economy_redux",
+    "version": "2.0.0",
     "type": "project",
     "description": "An economy game engine based on Slim Framework",
     "keywords": ["economy", "game", "gameengine"],
@@ -9,21 +9,21 @@
     "authors": [
         {
             "name": "Mikołaj Panecki",
-            "email": "firehead996@gmail.com",
-            "homepage": "http://www.firehead.starkom.eu/"
+            "email": "mikolaj@panecki.dev",
+            "homepage": "http://panecki.dev/"
         }
     ],
     "require": {
-        "php": ">=5.5.0",
-        "slim/slim": "^3.1",
-        "slim/php-view": "^2.0",
-        "monolog/monolog": "^1.17",
-        "illuminate/database": "^5.4",
-        "slim/twig-view": "^2.2",
-        "albert221/validation": "1.1.1",
-        "slim/csrf": "^0.8.1",
-        "slim/flash": "^0.2.0",
-        "bryanjhv/slim-session": "~3.0"
+        "php": "^8.5",
+        "slim/slim": "^3.12",
+        "slim/php-view": "^3.0",
+        "slim/twig-view": "^3.3",
+        "twig/twig": "^3.0",
+        "monolog/monolog": "^2.10",
+        "illuminate/database": "^8.83",
+        "slim/csrf": "^1.4",
+        "slim/flash": "^0.4",
+        "bryanjhv/slim-session": "^4.0"
     },
     "autoload": {
         "psr-4": {
