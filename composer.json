@@ -15,15 +15,17 @@
     ],
     "require": {
         "php": "^8.5",
-        "slim/slim": "^3.12",
-        "slim/php-view": "^3.0",
+        "slim/slim": "^4.15",
         "slim/twig-view": "^3.3",
         "twig/twig": "^3.0",
-        "monolog/monolog": "^2.10",
+        "monolog/monolog": "^2.9",
+        "php-di/php-di": "^6.4",
         "illuminate/database": "^8.83",
         "slim/csrf": "^1.4",
         "slim/flash": "^0.4",
-        "bryanjhv/slim-session": "^4.0"
+        "bryanjhv/slim-session": "^4.1",
+        "vlucas/phpdotenv": "^5.6",
+        "slim/psr7": "^1.8"
     },
     "autoload": {
         "psr-4": {
