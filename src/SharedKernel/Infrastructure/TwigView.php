@@ -12,11 +12,16 @@ final class TwigView implements View
 {
     public function __construct(
         private Twig $twig
-    ) {}
+    ) {
+        $env = $twig->getEnvironment();
+
+        $env->addGlobal('current_path', $_SERVER['REQUEST_URI'] ?? '/');
+        $env->addGlobal('htmx_request', ($_SERVER['HTTP_HX_REQUEST'] ?? '') === 'true');
+    }
 
     public function render(Response $response, string $template, array $data = []): Response
     {
-        return $this->twig->render($response, $template, $data);
+        return $this->twig->render($response, $template . '.twig', $data);
     }
 
     public function withGlobals(array $data): void

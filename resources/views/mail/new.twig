@@ -6,7 +6,7 @@
         <h3 class="panel-title">Nowa wiadomość</h3>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal" method="POST" action="{{ path_for('mail.new') }}">
+        <form class="form-horizontal" method="POST" action="{{ url_for('mail.new') }}">
             <div class="form-group{{ errors.to ? ' has-error' : ''}}">
                 <label for="to" class="col-lg-2 control-label">Nick</label>
                 <div class="col-lg-10">

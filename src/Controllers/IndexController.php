@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\SharedKernel\Application\View;
 use Psr\Log\LoggerInterface;
 
-class IndexController
+final class IndexController
 {
     public function __construct(
         private View $view,
@@ -18,6 +18,6 @@ class IndexController
 
     public function index(Request $request, Response $response, array $args): Response
     {
-        return $this->view->render($response, 'index.twig');
+        return $this->view->render($response, 'index');
     }
 }

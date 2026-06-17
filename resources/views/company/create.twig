@@ -72,7 +72,7 @@
                             {% if company.cost > userCash %}
                                 <center><button type="submit" disabled class="btn btn-primary">Nie posiadasz {{ company.cost }}$ przy sobie</button></center>
                             {% else %}
-                                <center><button type="submit" formaction="{{ path_for('company.create') }}" class="btn btn-primary">Załóż za {{ company.cost }}$</button></center>
+                                <center><button type="submit" formaction="{{ url_for('company.create') }}" class="btn btn-primary">Załóż za {{ company.cost }}$</button></center>
                             {% endif %}
                         </div>
                     </div>

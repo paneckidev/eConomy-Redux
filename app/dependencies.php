@@ -2,63 +2,56 @@
 
 declare(strict_types=1);
 
+use App\Auth\Presentation\AccountController;
+use App\Auth\Presentation\AuthController;
+use App\Controllers\CompanyController;
+use App\Controllers\ExchangeController;
 use DI\ContainerBuilder;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use App\Controllers\IndexController;
+use App\Controllers\Mail\MailController;
+use App\Controllers\RankingController;
+use App\SharedKernel\Application\HttpResponseFactory;
+use App\SharedKernel\Application\IdGenerator;
 use App\SharedKernel\Application\View;
+use App\SharedKernel\Infrastructure\MonologLogger;
+use App\SharedKernel\Infrastructure\RamseyIdGenerator;
+use App\SharedKernel\Infrastructure\SlimHttpResponseFactory;
 use App\SharedKernel\Infrastructure\TwigView;
+use Slim\App as SlimApp;
+use Slim\Factory\AppFactory;
+use Slim\Interfaces\RouteParserInterface;
 use Slim\Views\Twig;
-use Twig\Loader\FilesystemLoader;
-
-use function DI\autowire;
-
-//
-// Dependencies
-//
+use Slim\Views\TwigMiddleware;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
-        
-    
-        LoggerInterface::class => function () {
-            $logger = new Logger($_ENV['LOGGER_NAME']);
-
-            $processor = new UidProcessor();
-            $logger->pushProcessor($processor);
-
-            $handler = new StreamHandler($_ENV['LOGGER_PATH'], $_ENV['LOGGER_LEVEL']);
-            $logger->pushHandler($handler);
-
-            return $logger;
-        },
+        SlimApp::class => fn (ContainerInterface $c) => AppFactory::createFromContainer($c),
 
         IndexController::class => DI\autowire(),
+        AuthController::class => DI\autowire(),
+        RankingController::class => DI\autowire(),
+        CompanyController::class => DI\autowire(),
+        ExchangeController::class => DI\autowire(),
+        MailController::class => DI\autowire(),
+        AccountController::class => DI\autowire(),
 
-        RouteParserInterface::class => function () use ($app) {
-            return $app->getRouteCollector()->getRouteParser();
-        },
+        IdGenerator::class => DI\autowire(RamseyIdGenerator::class),
+        LoggerInterface::class => fn () => MonologLogger::create(),
+        HttpResponseFactory::class => DI\autowire(SlimHttpResponseFactory::class),
+        View::class => fn (ContainerInterface $c) => new TwigView($c->get(Twig::class)),
 
-        View::class => function (ContainerInterface $c)
-        {
-            $loader = new FilesystemLoader();
-            $loader->addPath(BASE_DIR . '/resources/views');
+        RouteParserInterface::class => fn (ContainerInterface $c)
+            => $c->get(SlimApp::class)->getRouteCollector()->getRouteParser(),
+            
+        Twig::class => fn () => Twig::create(BASE_DIR . '/resources/views', [
+            'cache' => $_ENV['TWIG_CACHE'] ?? false
+        ]),
 
-            $twig = new Twig($loader, [
-                'cache' => $_ENV['TWIG_CACHE'] ?? false
-            ]);
-
-            $twig->addExtension(new \Slim\Views\TwigExtension($c->get(RouteParserInterface::class), ''));
-
-            $env = $twig->getEnvironment();
-
-            $env->addGlobal('current_path', $_SERVER['REQUEST_URI'] ?? '/');
-            $env->addGlobal('htmx_request', ($_SERVER['HTTP_HX_REQUEST'] ?? '') === 'true');
-
-            return new TwigView($twig);
-        }
+        TwigMiddleware::class => fn (ContainerInterface $c) => TwigMiddleware::create(
+            $c->get(SlimApp::class),
+            $c->get(Twig::class)
+        ),
     ]);
 };

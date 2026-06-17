@@ -67,7 +67,7 @@
                 </div>
             </div>
             {{ csrf.field | raw }}
-            <center><button type="submit" formaction="{{ path_for('exchange.buy') }}" class="btn btn-primary">Kup</button>&nbsp<button type="submit" formaction="{{ path_for('exchange.sell') }}" class="btn btn-primary">Sprzedaj</button></center>
+            <center><button type="submit" formaction="{{ url_for('exchange.buy') }}" class="btn btn-primary">Kup</button>&nbsp<button type="submit" formaction="{{ url_for('exchange.sell') }}" class="btn btn-primary">Sprzedaj</button></center>
         </form>
     </div>
 </div>

@@ -6,7 +6,7 @@
         <h3 class="panel-title">Zmiana hasła</h3>
     </div>
     <div class="panel-body">
-        <form action="{{ path_for('auth.password.change') }}" method="POST" autocomplete="off">
+        <form action="{{ url_for('auth.password.change') }}" method="POST" autocomplete="off">
             <div class="form-group{{ errors.password_old ? ' has-error' : ''}}">
                 <label for="password_old">Aktualne hasło</label>
                 <input type="password" name="password_old" id="password_old" class="form-control">

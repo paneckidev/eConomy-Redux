@@ -16,8 +16,8 @@
                         {{ msg.content }}
                         <br/>
                         <div style="float:right;">
-                            <a href="{{ path_for('mail.new.withnickname', {'nickname': msg.from}) }}" class="btn btn-primary btn-sm">Odpisz</a>
-                            <a href="{{ path_for('mail.received.delete', {'id': msg.id}) }}" class="btn btn-default btn-sm">Usuń</a>
+                            <a href="{{ url_for('mail.new.withnickname', {'nickname': msg.from}) }}" class="btn btn-primary btn-sm">Odpisz</a>
+                            <a href="{{ url_for('mail.received.delete', {'id': msg.id}) }}" class="btn btn-default btn-sm">Usuń</a>
                         </div>
                     </div>
                     <div class="panel-footer">Wysłana: {{ msg.created_at }}</div>
